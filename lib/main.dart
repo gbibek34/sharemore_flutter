@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyHomePage(title: "Sharemore"),
+      home: Home(),
       title: "Sharemore App",
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,

@@ -3,74 +3,208 @@ import 'package:flutter/material.dart';
 import '../utilities/colors.dart';
 import '../utilities/themes.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Share",
-              style: TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: primaryColor),
             ),
             Text(
               "more",
-              style: TextStyle(
-                color: secondaryColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: secondaryColor),
             )
           ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.brightness_4_rounded),
-            onPressed: () {
-              currentTheme.toggleTheme();
-            },
-          )
-        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(children: [
+            //!Welcome Message
+            Container(
+              child: Column(
+                children: [
+                  Text(
+                    "Welcome",
+                    style: _textTheme.headline4,
+                  ),
+                  Text(
+                    "to",
+                    style: _textTheme.headline4,
+                  ),
+                  Text(
+                    "Sharemore",
+                    style: _textTheme.headline4,
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            //!Gap
+            SizedBox(height: 20),
+            //!Categories Container
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Select From :",
+                    style: _textTheme.headline6,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text("Business"),
+                      Text("Categories"),
+                      Text("Politics"),
+                      Text("Music"),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ],
+            //!Gap
+            SizedBox(height: 20),
+            //!Recent Blogs
+            Container(
+              child: Column(
+                children: [
+                  Text(
+                    "Recent Blogs",
+                    style: _textTheme.headline6,
+                  ),
+                  SizedBox(height: 10),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        //!Gap
+                        SizedBox(height: 10),
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 2,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.bottomLeft,
+                                  children: [
+                                    Ink.image(
+                                      height: 200,
+                                      image:
+                                          AssetImage("assets/images/dummy.jpg"),
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("MUSIC"),
+                                      Text(
+                                        "Flutter",
+                                        style: _textTheme.headline5,
+                                      ),
+                                      Text(
+                                        "A little bit of description",
+                                        style: TextStyle(fontSize: 18),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ButtonBar(
+                                  children: [
+                                    OutlinedButton(
+                                      onPressed: () {},
+                                      child: Text("View More"),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ), //?PostCard
+                        //!Gap
+                        SizedBox(height: 10),
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 2,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.bottomLeft,
+                                  children: [
+                                    Ink.image(
+                                      height: 200,
+                                      image:
+                                          AssetImage("assets/images/dummy.jpg"),
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("MUSIC"),
+                                      Text(
+                                        "Flutter",
+                                        style: _textTheme.headline5,
+                                      ),
+                                      Text(
+                                        "A little bit of description",
+                                        style: TextStyle(fontSize: 18),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ButtonBar(
+                                  children: [
+                                    OutlinedButton(
+                                      onPressed: () {},
+                                      child: Text("View More"),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ), //?PostCard
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ]),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

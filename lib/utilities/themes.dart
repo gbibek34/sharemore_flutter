@@ -17,20 +17,33 @@ class CustomTheme with ChangeNotifier {
     return ThemeData(
       brightness: Brightness.light,
       primarySwatch: backgroundColor,
+      fontFamily: "Poppins",
       scaffoldBackgroundColor: backgroundColor,
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,
         foregroundColor: backgroundColor,
       ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          ),
+          backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        ),
+      ),
       textTheme: TextTheme(
-        headline4: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-        ),
-        headline5: TextStyle(
-          color: primaryColor,
-          fontWeight: FontWeight.bold,
-        ),
+        headline4: TextStyle(color: textColor),
+        headline6: TextStyle(color: textColor),
+        bodyText1: TextStyle(
+            color: textColor,
+            fontFamily: "Quicksand",
+            fontWeight: FontWeight.w500),
+        bodyText2: TextStyle(
+            color: textColor,
+            fontFamily: "Quicksand",
+            fontSize: 16,
+            fontWeight: FontWeight.w500),
       ),
     );
   }
