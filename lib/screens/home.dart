@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/sidebar.dart';
 import '../utilities/colors.dart';
 import '../utilities/themes.dart';
 
@@ -11,7 +12,9 @@ class Home extends StatelessWidget {
     TextTheme _textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      drawer: Sidebar(),
       appBar: AppBar(
+        // leading:,
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -26,6 +29,13 @@ class Home extends StatelessWidget {
             )
           ],
         ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.brightness_4_rounded,
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -33,6 +43,14 @@ class Home extends StatelessWidget {
           child: Column(children: [
             //!Welcome Message
             Container(
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 50,
+                vertical: 20,
+              ),
               child: Column(
                 children: [
                   Text(
@@ -55,20 +73,25 @@ class Home extends StatelessWidget {
             //!Categories Container
             Container(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Select From :",
+                    "Read From",
                     style: _textTheme.headline6,
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text("Business"),
-                      Text("Categories"),
-                      Text("Politics"),
-                      Text("Music"),
-                    ],
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        Text("Business"),
+                        SizedBox(width: 10),
+                        Text("Categories"),
+                        SizedBox(width: 10),
+                        Text("Politics"),
+                        SizedBox(width: 10),
+                        Text("Music"),
+                      ],
+                    ),
                   )
                 ],
               ),
