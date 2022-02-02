@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/post_card.dart';
-import '../widgets/sidebar.dart';
-import '../utilities/colors.dart';
-import '../utilities/themes.dart';
+import 'package:sharemore/utilities/colors.dart';
+import 'package:sharemore/widgets/post_card.dart';
+import 'package:sharemore/widgets/sidebar.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
+class PostList extends StatelessWidget {
+  const PostList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,44 +56,8 @@ class Home extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Welcome",
+                    "My Posts",
                     style: _textTheme.headline4,
-                  ),
-                  Text(
-                    "to",
-                    style: _textTheme.headline4,
-                  ),
-                  Text(
-                    "Sharemore",
-                    style: _textTheme.headline4,
-                  ),
-                ],
-              ),
-            ),
-            //!Gap
-            SizedBox(height: 20),
-            //!Categories Container
-            Container(
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Read From",
-                    style: _textTheme.headline6,
-                  ),
-                  SizedBox(height: 10),
-                  SingleChildScrollView(
-                    child: Row(
-                      children: [
-                        Text("Business"),
-                        SizedBox(width: 10),
-                        Text("Categories"),
-                        SizedBox(width: 10),
-                        Text("Politics"),
-                        SizedBox(width: 10),
-                        Text("Music"),
-                      ],
-                    ),
                   )
                 ],
               ),
@@ -105,11 +68,6 @@ class Home extends StatelessWidget {
             Container(
               child: Column(
                 children: [
-                  Text(
-                    "Recent Blogs",
-                    style: _textTheme.headline6,
-                  ),
-                  SizedBox(height: 10),
                   SingleChildScrollView(
                     child: Column(
                       children: [

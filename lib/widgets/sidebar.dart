@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemore/screens/home.dart';
+import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/colors.dart';
 
 class Sidebar extends StatelessWidget {
@@ -46,7 +47,7 @@ class Sidebar extends StatelessWidget {
                       menuItems(
                         text: "My Posts",
                         icon: Icons.feed,
-                        onClicked: () => selectedItem(context, 0),
+                        onClicked: () => selectedItem(context, 1),
                       ),
                       menuItems(
                         text: "Write",
@@ -54,13 +55,13 @@ class Sidebar extends StatelessWidget {
                         onClicked: () => selectedItem(context, 0),
                       ),
                       menuItems(
-                        text: "More",
-                        icon: Icons.menu,
+                        text: "Categories",
+                        icon: Icons.grid_3x3,
                         onClicked: () => selectedItem(context, 0),
                       ),
                       menuItems(
-                        text: "Categories",
-                        icon: Icons.grid_3x3,
+                        text: "More",
+                        icon: Icons.menu_open,
                         onClicked: () => selectedItem(context, 0),
                       ),
                     ],
@@ -133,6 +134,14 @@ void selectedItem(BuildContext context, int index) {
         context,
         new MaterialPageRoute(
           builder: (context) => Home(),
+        ),
+      );
+      break;
+    case 1:
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => PostList(),
         ),
       );
       break;
