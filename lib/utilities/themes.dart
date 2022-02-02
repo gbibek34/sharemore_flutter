@@ -23,17 +23,18 @@ class CustomTheme with ChangeNotifier {
         backgroundColor: primaryColor,
         foregroundColor: backgroundColor,
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
+      textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-          foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
+          backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+          foregroundColor: MaterialStateProperty.all<Color>(backgroundColor),
         ),
       ),
       textTheme: TextTheme(
         headline4: TextStyle(color: textColor),
+        headline5: TextStyle(color: textColor, fontWeight: FontWeight.bold),
         headline6: TextStyle(color: textColor),
         bodyText1: TextStyle(
             color: textColor,

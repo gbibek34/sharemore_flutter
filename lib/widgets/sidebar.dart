@@ -73,6 +73,11 @@ class Sidebar extends StatelessWidget {
                             icon: Icons.person,
                             onClicked: () => selectedItem(context, 5),
                           ),
+                          menuItems(
+                            text: "Logout",
+                            icon: Icons.login_outlined,
+                            onClicked: () => selectedItem(context, 5),
+                          ),
                         ],
                       ),
                     ),
