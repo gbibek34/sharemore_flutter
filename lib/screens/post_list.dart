@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/widgets/post_card.dart';
 import 'package:sharemore/widgets/sidebar.dart';
+import 'package:sharemore/widgets/topbar.dart';
 
 class PostList extends StatelessWidget {
   const PostList({Key? key}) : super(key: key);
@@ -13,30 +14,9 @@ class PostList extends StatelessWidget {
 
     return Scaffold(
       drawer: Sidebar(),
-      appBar: AppBar(
-        // leading:,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Share",
-              style: TextStyle(color: primaryColor),
-            ),
-            Text(
-              "more",
-              style: TextStyle(color: secondaryColor),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.brightness_4_rounded,
-            ),
-          )
-        ],
+      appBar: PreferredSize(
+        child: Topbar(),
+        preferredSize: Size(double.infinity, 60),
       ),
       body: SingleChildScrollView(
         child: Container(

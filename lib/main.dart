@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../utilities/themes.dart';
-import '../screens/home.dart';
+import 'package:sharemore/utilities/colors.dart';
+import 'package:sharemore/widgets/sidebar.dart';
+import 'package:sharemore/utilities/themes.dart';
+import 'package:sharemore/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,3 +36,41 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+// class MainContainer extends StatelessWidget {
+//   const MainContainer({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     TextTheme _textTheme = Theme.of(context).textTheme;
+//     return Scaffold(
+//       drawer: Sidebar(),
+//       appBar: AppBar(
+//         // leading:,
+//         elevation: 0,
+//         title: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Text(
+//               "Share",
+//               style: TextStyle(color: primaryColor),
+//             ),
+//             Text(
+//               "more",
+//               style: TextStyle(color: secondaryColor),
+//             )
+//           ],
+//         ),
+//         actions: [
+//           IconButton(
+//             onPressed: () {},
+//             icon: Icon(
+//               Icons.brightness_4_rounded,
+//             ),
+//           )
+//         ],
+//       ),
+//       body: Home(),
+//     );
+//   }
+// }
