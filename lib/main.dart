@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharemore/screens/login.dart';
 
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/widgets/sidebar.dart';
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Login(),
       title: "Sharemore App",
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
