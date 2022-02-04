@@ -23,15 +23,6 @@ class CustomTheme with ChangeNotifier {
         backgroundColor: primaryColor,
         foregroundColor: backgroundColor,
       ),
-      // textButtonTheme: TextButtonThemeData(
-      //   style: ButtonStyle(
-      //     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-      //       EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      //     ),
-      //     backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
-      //     foregroundColor: MaterialStateProperty.all<Color>(backgroundColor),
-      //   ),
-      // ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sharemore/screens/home.dart';
-import 'package:sharemore/screens/register.dart';
+import 'package:sharemore/screens/login.dart';
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class Register extends StatelessWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Login extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: CircleAvatar(
-                      radius: 150,
+                      radius: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(
                           Radius.circular(50),
@@ -83,6 +83,18 @@ class Login extends StatelessWidget {
                       TextField(
                         // controller: fnamecontroller,
                         decoration: InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'Email',
+                          border: OutlineInputBorder(),
+                          // errorText: fnamevalidate ? "Field cannot be empty" : null,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        // controller: fnamecontroller,
+                        decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Password',
                           border: OutlineInputBorder(),
@@ -101,26 +113,26 @@ class Login extends StatelessWidget {
                             ),
                           );
                         },
-                        icon: Icon(Icons.login),
-                        label: Text("Login"),
+                        icon: Icon(Icons.edit_outlined),
+                        label: Text("Register"),
                       ),
                       SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Dont have an account yet?"),
+                          Text("Already have an account?"),
                           SizedBox(width: 5),
                           InkWell(
                             onTap: () {
                               Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
-                                  builder: (context) => Register(),
+                                  builder: (context) => Login(),
                                 ),
                               );
                             },
                             child: Text(
-                              "Create One",
+                              "Login",
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,

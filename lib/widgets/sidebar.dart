@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sharemore/screens/home.dart';
+import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/screens/profile.dart';
@@ -76,7 +77,7 @@ class Sidebar extends StatelessWidget {
                           menuItems(
                             text: "Logout",
                             icon: Icons.login_outlined,
-                            onClicked: () => selectedItem(context, 5),
+                            onClicked: () => selectedItem(context, 6),
                           ),
                         ],
                       ),
@@ -137,6 +138,14 @@ void selectedItem(BuildContext context, int index) {
         context,
         new MaterialPageRoute(
           builder: (context) => Profile(),
+        ),
+      );
+      break;
+    case 6:
+      Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => Login(),
         ),
       );
       break;
