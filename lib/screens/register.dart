@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sharemore/screens/home.dart';
+
 import 'package:sharemore/screens/login.dart';
+import 'package:sharemore/utilities/network_handler.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -12,6 +13,12 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool passwordvis = true;
   final _validatorkey = GlobalKey<FormState>();
+
+  NetworkHandler networkHandler = NetworkHandler();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +102,13 @@ class _RegisterState extends State<Register> {
                           TextButton.icon(
                             onPressed: () {
                               if (_validatorkey.currentState!.validate()) {
-                                //Validated
+                                Map<String, String> data = {
+                                  "username": _usernameController.text,
+                                  "email": _emailController.text,
+                                  "password": _passwordController.text
+                                };
+                                print(data);
+                                networkHandler.post("/user/register", data);
                               }
                             },
                             icon: Icon(Icons.edit_outlined),
@@ -143,6 +156,7 @@ class _RegisterState extends State<Register> {
     return Column(
       children: [
         TextFormField(
+          controller: _usernameController,
           validator: (value) {
             if (value!.isEmpty) return "Username can't be empty";
             // usename unique is not
@@ -162,6 +176,7 @@ class _RegisterState extends State<Register> {
     return Column(
       children: [
         TextFormField(
+          controller: _emailController,
           validator: (value) {
             if (value!.isEmpty) return "Email can't be empty";
             if (!value.contains("@")) return "Invalid Email";
@@ -182,6 +197,7 @@ class _RegisterState extends State<Register> {
     return Column(
       children: [
         TextFormField(
+          controller: _passwordController,
           validator: (value) {
             if (value!.isEmpty) return "Password can't be empty";
             if (value.length < 6) return "Passwords should least be 6 letters";
