@@ -10,20 +10,33 @@ class NetworkHandler {
   Future<dynamic> get(url) async {
     url = Uri.parse(formatter(url));
     var response = await http.get(url);
-    log.i(response.body);
-    // log.i(response.body);
+    var data = jsonDecode(response.body);
+    // print(data["success"]);
+    if (data["success"] == true) {
+      // log.i(data);
+      return data;
+    } else {
+      // log.i(data);
+      return data;
+    }
   }
 
   Future<dynamic> post(url, Map<String, String> body) async {
     url = Uri.parse(formatter(url));
-    var response = await http.post(url, body: body);
+    var response = await http.post(
+      url,
+      headers: {"Content-type": "application/json"},
+      body: json.encode(body),
+    );
     var data = jsonDecode(response.body);
-    if (data["success"] == 'true') {
+    log.i(data['success']);
+    if (data['success'] == true) {
       log.i(data);
-      return response;
+      return data;
+    } else {
+      log.i(data);
+      return data;
     }
-    log.i(data["msg"]);
-    log.i(data["success"]);
   }
 
   String formatter(String url) {

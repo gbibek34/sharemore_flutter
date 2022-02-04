@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/utilities/network_handler.dart';
@@ -18,6 +21,8 @@ class _RegisterState extends State<Register> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  bool existing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -100,15 +105,34 @@ class _RegisterState extends State<Register> {
                             height: 20,
                           ),
                           TextButton.icon(
-                            onPressed: () {
+                            onPressed: () async {
+                              setState(() {
+                                existing = false;
+                              });
                               if (_validatorkey.currentState!.validate()) {
                                 Map<String, String> data = {
                                   "username": _usernameController.text,
                                   "email": _emailController.text,
                                   "password": _passwordController.text
                                 };
-                                print(data);
-                                networkHandler.post("/user/register", data);
+
+                                var res = await networkHandler.get(
+                                    "/user/existing/${_usernameController.text}");
+
+                                if (res["success"] == true) {
+                                  networkHandler.post("/user/register", data);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (context) => Login(),
+                                    ),
+                                  );
+                                } else {
+                                  setState(() {
+                                    existing = true;
+                                  });
+                                  _validatorkey.currentState!.validate();
+                                }
                               }
                             },
                             icon: Icon(Icons.edit_outlined),
@@ -159,7 +183,8 @@ class _RegisterState extends State<Register> {
           controller: _usernameController,
           validator: (value) {
             if (value!.isEmpty) return "Username can't be empty";
-            // usename unique is not
+            if (existing == true) return "Username already exists";
+
             return null;
           },
           decoration: InputDecoration(
@@ -180,7 +205,6 @@ class _RegisterState extends State<Register> {
           validator: (value) {
             if (value!.isEmpty) return "Email can't be empty";
             if (!value.contains("@")) return "Invalid Email";
-            // email unique is not
             return null;
           },
           decoration: InputDecoration(
@@ -201,7 +225,6 @@ class _RegisterState extends State<Register> {
           validator: (value) {
             if (value!.isEmpty) return "Password can't be empty";
             if (value.length < 6) return "Passwords should least be 6 letters";
-            // usename unique is not
             return null;
           },
           obscureText: passwordvis,
