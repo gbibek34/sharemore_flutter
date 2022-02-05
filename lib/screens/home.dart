@@ -1,12 +1,42 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:sharemore/models/postModel.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
 import 'package:sharemore/widgets/post_card.dart';
 import 'package:sharemore/utilities/colors.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  postModel posts = postModel();
+  bool circular = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPosts();
+  }
+
+  void getPosts() async {
+    var url = Uri.parse("http://10.0.2.2:5000/api/post/");
+    var res = await http.get(url);
+    var data = jsonDecode(res.body);
+    setState(() {
+      posts = postModel.fromJson(data);
+      circular = false;
+      // print(posts.image);
+    });
+    print(posts);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +126,13 @@ class Home extends StatelessWidget {
                           SizedBox(height: 10),
                           PostCard(),
                           SizedBox(height: 20),
-                          PostCard()
+                          PostCard(),
+                          Container(
+                            child: circular
+                                ? CircularProgressIndicator()
+                                : Text("${posts.title}"),
+                          )
+                          // Text(posts.title)
                         ],
                       ),
                     )
