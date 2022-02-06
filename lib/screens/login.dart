@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/screens/register.dart';
 import 'package:sharemore/utilities/network_handler.dart';
+import 'package:sharemore/utilities/token_storage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -116,6 +117,7 @@ class _LoginState extends State<Login> {
                                     builder: (context) => Home(),
                                   ),
                                 );
+                                assignToken(res["token"]);
                               } else if (res["msg"] == "Invalid Password") {
                                 setState(() {
                                   pinvalid = true;
