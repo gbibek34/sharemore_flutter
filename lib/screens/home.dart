@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import 'package:sharemore/models/postModel.dart';
+import 'package:sharemore/utilities/network_handler.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
 import 'package:sharemore/widgets/post_card.dart';
@@ -17,25 +18,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  postModel posts = postModel();
+  NetworkHandler networkHandler = NetworkHandler();
+
+  late Future<List<postModel>> posts;
   bool circular = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getPosts();
+    posts = getPosts();
   }
 
-  void getPosts() async {
-    var url = Uri.parse("http://10.0.2.2:5000/api/post/");
-    var res = await http.get(url);
-    var data = jsonDecode(res.body);
-    setState(() {
-      posts = postModel.fromJson(data);
-      circular = false;
-      // print(posts.image);
-    });
-    print(posts);
+  Future<List<postModel>> getPosts() async {
+    List<postModel> temp_list = <postModel>[];
+    var res = await networkHandler.get("/post/");
+    var postData = res["msg"];
+    for (int i = 0; i < res["msg"].length; i++) {
+      temp_list.add(postModel(
+        title: postData[i]["title"],
+        description: postData[i]["description"],
+        image: postData[i]["image"],
+        username: postData[i]["username"],
+        category: postData[i]["category"],
+        createdAt: postData[i]["createdAt"],
+      ));
+    }
+    return Future.delayed(Duration.zero, () => temp_list);
   }
 
   @override
@@ -123,16 +130,38 @@ class _HomeState extends State<Home> {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(height: 10),
-                          PostCard(),
-                          SizedBox(height: 20),
-                          PostCard(),
-                          Container(
-                            child: circular
-                                ? CircularProgressIndicator()
-                                : Text("${posts.title}"),
-                          )
-                          // Text(posts.title)
+                          FutureBuilder<List<postModel>>(
+                              future: posts,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: ListView.builder(
+                                        itemCount: snapshot.data!.length,
+                                        itemBuilder: (context, index) {
+                                          return PostCard(
+                                            category:
+                                                snapshot.data![index].category!,
+                                            title: snapshot.data![index].title!,
+                                            description: snapshot
+                                                .data![index].description!,
+                                          );
+                                        }),
+                                  );
+                                } else {
+                                  return Container(
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
+                                  );
+                                }
+                              }),
+                          // Container(
+                          //   height: MediaQuery.of(context).size.height * 0.5,
+                          //   child: LayoutBuilder( ,builder: (context, index) {
+                          //     return PostCard();
+                          //   }),
+                          // )
                         ],
                       ),
                     )
