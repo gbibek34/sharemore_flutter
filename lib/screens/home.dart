@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
     var postData = res["msg"];
     for (int i = 0; i < res["msg"].length; i++) {
       temp_list.add(postModel(
+        id: postData[i]["_id"],
         title: postData[i]["title"],
         description: postData[i]["description"],
         image: postData[i]["image"],
@@ -43,6 +44,12 @@ class _HomeState extends State<Home> {
       ));
     }
     return Future.delayed(Duration.zero, () => temp_list);
+  }
+
+  dataRefresh() {
+    setState(() {
+      posts = getPosts();
+    });
   }
 
   @override
@@ -90,34 +97,6 @@ class _HomeState extends State<Home> {
               ),
               //todo:Gap
               SizedBox(height: 20),
-              //todo:Categories Container
-              Container(
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Read From",
-                      style: _textTheme.headline6,
-                    ),
-                    SizedBox(height: 10),
-                    SingleChildScrollView(
-                      child: Row(
-                        children: [
-                          Text("Business"),
-                          SizedBox(width: 10),
-                          Text("Categories"),
-                          SizedBox(width: 10),
-                          Text("Politics"),
-                          SizedBox(width: 10),
-                          Text("Music"),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              //todo:Gap
-              SizedBox(height: 20),
               //todo:Recent Blogs
               Container(
                 child: Column(
@@ -141,11 +120,13 @@ class _HomeState extends State<Home> {
                                         itemCount: snapshot.data!.length,
                                         itemBuilder: (context, index) {
                                           return PostCard(
+                                            post_id: snapshot.data![index].id!,
                                             category:
                                                 snapshot.data![index].category!,
                                             title: snapshot.data![index].title!,
                                             description: snapshot
                                                 .data![index].description!,
+                                            parentRefresh: dataRefresh,
                                           );
                                         }),
                                   );
@@ -156,12 +137,6 @@ class _HomeState extends State<Home> {
                                   );
                                 }
                               }),
-                          // Container(
-                          //   height: MediaQuery.of(context).size.height * 0.5,
-                          //   child: LayoutBuilder( ,builder: (context, index) {
-                          //     return PostCard();
-                          //   }),
-                          // )
                         ],
                       ),
                     )
