@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:sharemore/utilities/token_storage.dart';
 
 class NetworkHandler {
   String baseurl = "http://192.168.1.2:5000/api";
   var log = Logger();
 
   Future<dynamic> get(url) async {
+    var token = await loadToken();
     url = Uri.parse(formatter(url));
-    var response = await http.get(url);
+    var response =
+        await http.get(url, headers: {"authorization": "Bearer " + token!});
     var data = jsonDecode(response.body);
     // print(data["success"]);
     if (data["success"] == true) {
@@ -31,10 +34,10 @@ class NetworkHandler {
     var data = jsonDecode(response.body);
     log.i(data['success']);
     if (data['success'] == true) {
-      log.i(data);
+      // log.i(data);
       return data;
     } else {
-      log.i(data);
+      // log.i(data);
       return data;
     }
   }
