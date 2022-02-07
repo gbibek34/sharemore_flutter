@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/screens/post_list.dart';
+import 'package:sharemore/screens/post_write.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/screens/profile.dart';
+import 'package:sharemore/utilities/token_storage.dart';
 
 class Sidebar extends StatelessWidget {
   const Sidebar({Key? key}) : super(key: key);
@@ -57,7 +59,7 @@ class Sidebar extends StatelessWidget {
                           menuItems(
                             text: "Write",
                             icon: Icons.edit,
-                            onClicked: () => selectedItem(context, 0),
+                            onClicked: () => selectedItem(context, 2),
                           ),
                           menuItems(
                             text: "Categories",
@@ -75,10 +77,12 @@ class Sidebar extends StatelessWidget {
                             onClicked: () => selectedItem(context, 5),
                           ),
                           menuItems(
-                            text: "Logout",
-                            icon: Icons.login_outlined,
-                            onClicked: () => selectedItem(context, 6),
-                          ),
+                              text: "Logout",
+                              icon: Icons.login_outlined,
+                              onClicked: () {
+                                selectedItem(context, 6);
+                                removeToken();
+                              }),
                         ],
                       ),
                     ),
@@ -130,6 +134,14 @@ void selectedItem(BuildContext context, int index) {
         context,
         new MaterialPageRoute(
           builder: (context) => PostList(),
+        ),
+      );
+      break;
+    case 2:
+      Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => PostWrite(),
         ),
       );
       break;

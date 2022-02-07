@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 
-class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+class PostCard extends StatefulWidget {
+  final String category;
+  final String title;
+  final String description;
 
+  const PostCard({
+    Key? key,
+    required this.category,
+    required this.title,
+    required this.description,
+  }) : super(key: key);
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).textTheme;
@@ -33,13 +47,13 @@ class PostCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("MUSIC"),
+                  Text("${widget.category}"),
                   Text(
-                    "Flutter",
+                    "${widget.title}",
                     style: _textTheme.headline5,
                   ),
                   Text(
-                    "A little bit of description",
+                    "${widget.description}",
                     style: TextStyle(fontSize: 18),
                   )
                 ],
