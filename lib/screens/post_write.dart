@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
 import 'package:sharemore/widgets/sidebar.dart';
@@ -20,6 +21,8 @@ class _PostWriteState extends State<PostWrite> {
   TextEditingController _descriptionController = TextEditingController();
   String categoryValue = "Random";
 
+  bool existing = false;
+
   @override
   Widget build(BuildContext context) {
     TextTheme _textTheme = Theme.of(context).textTheme;
@@ -34,6 +37,25 @@ class _PostWriteState extends State<PostWrite> {
           child: Container(
             padding: EdgeInsets.all(20),
             child: Column(children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Create a post",
+                      style: _textTheme.headline4,
+                    )
+                  ],
+                ),
+              ),
               Form(
                 key: _validatorkey,
                 child: Container(
@@ -57,7 +79,36 @@ class _PostWriteState extends State<PostWrite> {
                         height: 20,
                       ),
                       TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () async {
+                          setState(() {
+                            existing = false;
+                          });
+                          if (_validatorkey.currentState!.validate()) {
+                            Map<String, String> data = {
+                              "title": _titleController.text,
+                              "description": _descriptionController.text,
+                              "category": categoryValue
+                            };
+
+                            var res = await networkHandler
+                                .get("/post/existing/${_titleController.text}");
+
+                            if (res["success"] == true) {
+                              networkHandler.post("/post/create", data);
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => PostList(),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                existing = true;
+                              });
+                              _validatorkey.currentState!.validate();
+                            }
+                          }
+                        },
                         icon: Icon(Icons.publish),
                         label: Text("Publish"),
                       )
@@ -79,6 +130,7 @@ class _PostWriteState extends State<PostWrite> {
           controller: _titleController,
           validator: (value) {
             if (value!.isEmpty) return "Title can't be empty";
+            if (existing == true) return "Title already exists";
 
             return null;
           },
