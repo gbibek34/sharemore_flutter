@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:sharemore/screens/post_container.dart';
 
 class PostCard extends StatefulWidget {
+  final String post_id;
   final String category;
   final String title;
   final String description;
+  final Function() parentRefresh;
 
   const PostCard({
     Key? key,
+    required this.post_id,
     required this.category,
     required this.title,
     required this.description,
+    required this.parentRefresh,
   }) : super(key: key);
 
   @override
@@ -27,7 +32,17 @@ class _PostCardState extends State<PostCard> {
       ),
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => PostContainer(
+                post_id: widget.post_id,
+                parentRefresh: widget.parentRefresh,
+              ),
+            ),
+          );
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,6 +70,7 @@ class _PostCardState extends State<PostCard> {
                   Text(
                     "${widget.description}",
                     style: TextStyle(fontSize: 18),
+                    maxLines: 2,
                   )
                 ],
               ),

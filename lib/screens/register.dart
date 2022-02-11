@@ -121,7 +121,7 @@ class _RegisterState extends State<Register> {
 
                                 if (res["success"] == true) {
                                   networkHandler.post("/user/register", data);
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     new MaterialPageRoute(
                                       builder: (context) => Login(),
@@ -146,7 +146,7 @@ class _RegisterState extends State<Register> {
                               SizedBox(width: 5),
                               InkWell(
                                 onTap: () {
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     new MaterialPageRoute(
                                       builder: (context) => Login(),

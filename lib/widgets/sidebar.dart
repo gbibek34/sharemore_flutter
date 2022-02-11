@@ -62,16 +62,6 @@ class Sidebar extends StatelessWidget {
                             onClicked: () => selectedItem(context, 2),
                           ),
                           menuItems(
-                            text: "Categories",
-                            icon: Icons.grid_3x3,
-                            onClicked: () => selectedItem(context, 0),
-                          ),
-                          menuItems(
-                            text: "More",
-                            icon: Icons.menu_open,
-                            onClicked: () => selectedItem(context, 0),
-                          ),
-                          menuItems(
                             text: "My Profile",
                             icon: Icons.person,
                             onClicked: () => selectedItem(context, 5),
@@ -122,7 +112,7 @@ void selectedItem(BuildContext context, int index) {
 
   switch (index) {
     case 0:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         new MaterialPageRoute(
           builder: (context) => Home(),
@@ -130,7 +120,7 @@ void selectedItem(BuildContext context, int index) {
       );
       break;
     case 1:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         new MaterialPageRoute(
           builder: (context) => PostList(),
@@ -138,7 +128,7 @@ void selectedItem(BuildContext context, int index) {
       );
       break;
     case 2:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         new MaterialPageRoute(
           builder: (context) => PostWrite(),
@@ -146,7 +136,7 @@ void selectedItem(BuildContext context, int index) {
       );
       break;
     case 5:
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         new MaterialPageRoute(
           builder: (context) => Profile(),

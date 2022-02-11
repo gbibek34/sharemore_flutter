@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
                                   "/user/login", data);
 
                               if (res["success"] == true) {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                   context,
                                   new MaterialPageRoute(
                                     builder: (context) => Home(),
@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
                             SizedBox(width: 5),
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                   context,
                                   new MaterialPageRoute(
                                     builder: (context) => Register(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharemore/models/userModel.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
+import 'package:sharemore/widgets/profile_editing.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
 
@@ -26,12 +27,19 @@ class _ProfileState extends State<Profile> {
     userModel temp_user = userModel();
     var res = await networkHandler.get("/user/get");
     temp_user = userModel(
+      id: res["msg"]["_id"],
       username: res["msg"]["username"],
       email: res["msg"]["email"],
       profile_picture: res["msg"]["profile_picture"],
       createdAt: res["msg"]["createdAt"],
     );
     return Future.delayed(Duration.zero, () => temp_user);
+  }
+
+  dataRefresh() {
+    setState(() {
+      user = getUser();
+    });
   }
 
   @override
@@ -103,7 +111,19 @@ class _ProfileState extends State<Profile> {
                                         horizontal: 40, vertical: 10),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (context) => ProfileEdit(
+                                        user_id: snapshot.data!.id!,
+                                        username: snapshot.data!.username!,
+                                        email: snapshot.data!.email!,
+                                        refreshParent: dataRefresh,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: Text("Edit Profile"),
                               ),
                               SizedBox(height: 10),
@@ -118,7 +138,34 @@ class _ProfileState extends State<Profile> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.redAccent),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: Text("Confirm Delete?"),
+                                      content: Text(
+                                          "Are you sure you want to delete your account? It cannot be reverted!"),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, "Confirm");
+                                          },
+                                          child: Text("Confirm"),
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.red,
+                                              onPrimary: Colors.white),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, "Cancel");
+                                          },
+                                          child: Text("Cancel"),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
                                 child: Text("Delete Profile"),
                               ),
                             ],

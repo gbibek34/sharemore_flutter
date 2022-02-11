@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sharemore/screens/profile.dart';
 
 import 'package:sharemore/utilities/colors.dart';
 
@@ -25,9 +26,16 @@ class Topbar extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => Profile(),
+              ),
+            );
+          },
           icon: Icon(
-            Icons.brightness_4_rounded,
+            Icons.person,
           ),
         )
       ],
