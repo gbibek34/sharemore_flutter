@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sharemore/models/userModel.dart';
+import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
+import 'package:sharemore/utilities/token_storage.dart';
 import 'package:sharemore/widgets/profile_editing.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
@@ -149,7 +151,15 @@ class _ProfileState extends State<Profile> {
                                       actions: [
                                         ElevatedButton(
                                           onPressed: () {
-                                            Navigator.pop(context, "Confirm");
+                                            networkHandler.delete(
+                                                "/user/delete/${snapshot.data!.id}");
+                                            removeToken();
+                                            Navigator.pushReplacement(
+                                              context,
+                                              new MaterialPageRoute(
+                                                builder: (context) => Login(),
+                                              ),
+                                            );
                                           },
                                           child: Text("Confirm"),
                                           style: ElevatedButton.styleFrom(

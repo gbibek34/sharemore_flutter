@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:sharemore/utilities/token_storage.dart';
 
 class NetworkHandler {
-  String baseurl = "http://192.168.1.2:5000/api";
+  String baseurl = "http://10.1.1.87:5000/api";
   var log = Logger();
 
   Future<dynamic> get(url) async {

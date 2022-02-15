@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/utilities/userfetch.dart';
 import 'package:sharemore/widgets/post_editing.dart';
-import 'package:intl/intl.dart';
 
 class Post extends StatefulWidget {
   final String id;
@@ -28,19 +28,25 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
-  var date;
   var user;
-  userFetch() async {
-    user = await getUser();
-    return widget.username == user.username;
-  }
+  bool correctUser = false;
 
   @override
   void initState() {
     super.initState();
-    print(userFetch());
-    var temp_date = DateTime.now();
-    date = DateFormat.yMd().format(temp_date);
+    refreshData();
+  }
+
+  userFetch() async {
+    user = await getUser();
+    correctUser = (widget.username == user.username);
+    refreshData();
+  }
+
+  refreshData() {
+    setState(() {
+      userFetch();
+    });
   }
 
   @override
@@ -60,76 +66,91 @@ class _PostState extends State<Post> {
             ),
             SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.all(10),
+              // padding: EdgeInsets.all(10),
               child: Column(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "${widget.title}",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Text(
+                        "${widget.title}",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 5,
                       ),
                     ),
                     //todo:only for user whom the post belongs to
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => PostEdit(
-                                    post_id: widget.id,
-                                    title: widget.title,
-                                    description: widget.description,
-                                    category: widget.category,
-                                    refreshParent: widget.parentRefresh,
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            )),
-                        IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: Text("Confirm Delete?"),
-                                  content: Text(
-                                      "Are you sure you want to delete this post?"),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context, "Confirm");
-                                      },
-                                      child: Text("Confirm"),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.red,
-                                          onPrimary: Colors.white),
+                    correctUser == true
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (context) => PostEdit(
+                                        post_id: widget.id,
+                                        title: widget.title,
+                                        description: widget.description,
+                                        category: widget.category,
+                                        refreshParent: widget.parentRefresh,
+                                      ),
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context, "Cancel");
-                                      },
-                                      child: Text("Cancel"),
-                                    )
-                                  ],
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
                                 ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            )),
-                      ],
-                    ),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text("Confirm Delete?"),
+                                        content: Text(
+                                            "Are you sure you want to delete this post?"),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              networkHandler.delete(
+                                                  "/post/delete/${widget.id}");
+                                              Navigator.pushReplacement(
+                                                context,
+                                                new MaterialPageRoute(
+                                                  builder: (context) => Home(),
+                                                ),
+                                              );
+                                              widget.parentRefresh();
+                                            },
+                                            child: Text("Confirm"),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.red,
+                                                onPrimary: Colors.white),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, "Cancel");
+                                            },
+                                            child: Text("Cancel"),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  )),
+                            ],
+                          )
+                        : Container(),
                   ],
                 ),
                 Row(

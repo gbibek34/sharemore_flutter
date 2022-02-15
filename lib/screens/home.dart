@@ -119,14 +119,20 @@ class _HomeState extends State<Home> {
                                     child: ListView.builder(
                                         itemCount: snapshot.data!.length,
                                         itemBuilder: (context, index) {
-                                          return PostCard(
-                                            post_id: snapshot.data![index].id!,
-                                            category:
-                                                snapshot.data![index].category!,
-                                            title: snapshot.data![index].title!,
-                                            description: snapshot
-                                                .data![index].description!,
-                                            parentRefresh: dataRefresh,
+                                          return Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
+                                            child: PostCard(
+                                              post_id:
+                                                  snapshot.data![index].id!,
+                                              category: snapshot
+                                                  .data![index].category!,
+                                              title:
+                                                  snapshot.data![index].title!,
+                                              description: snapshot
+                                                  .data![index].description!,
+                                              parentRefresh: dataRefresh,
+                                            ),
                                           );
                                         }),
                                   );
