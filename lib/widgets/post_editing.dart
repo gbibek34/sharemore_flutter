@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
-import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
 import 'package:sharemore/widgets/sidebar.dart';
@@ -120,7 +116,6 @@ class _PostEditState extends State<PostEdit> {
 
                             var res = await networkHandler.put(
                                 "/post/update/${widget.post_id}", data);
-                            Logger().i(res);
                             if (res["success"] == true) {
                               widget.refreshParent();
                               Navigator.pop(context);

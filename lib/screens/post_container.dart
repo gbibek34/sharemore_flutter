@@ -33,7 +33,6 @@ class _PostContainerState extends State<PostContainer> {
     postModel temp_post = postModel();
     var res = await networkHandler.get("/post/${widget.post_id}");
     var postData = res["msg"];
-    print(postData);
     temp_post = postModel(
       id: postData["_id"],
       title: postData["title"],

@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/utilities/network_handler.dart';

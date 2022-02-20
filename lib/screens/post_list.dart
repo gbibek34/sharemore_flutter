@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:sharemore/models/postModel.dart';
 
 import 'package:sharemore/utilities/colors.dart';
@@ -33,7 +32,6 @@ class _PostListState extends State<PostList> {
     List<postModel> temp_list = <postModel>[];
     var res = await networkHandler.get("/post/");
     var user = await getUser();
-    Logger().i(user.username);
     var postData = res["msg"];
     for (int i = 0; i < res["msg"].length; i++) {
       if (postData[i]["username"] == user.username) {

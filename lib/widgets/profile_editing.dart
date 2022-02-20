@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
 

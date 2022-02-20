@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:sharemore/screens/login.dart';
-
 import 'package:sharemore/utilities/colors.dart';
+
 import 'package:sharemore/utilities/token_storage.dart';
-import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/utilities/themes.dart';
 import 'package:sharemore/screens/home.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 void main() {
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+      channelKey: 'basic_channel',
+      channelName: 'Basic notifications',
+      channelDescription: 'Basic notifications for post creation',
+      defaultColor: primaryColor,
+      importance: NotificationImportance.High,
+      channelShowBadge: true,
+      playSound: true,
+      enableLights: true,
+      enableVibration: true,
+      ledColor: Colors.white,
+    )
+  ]);
   runApp(const MyApp());
 }
 

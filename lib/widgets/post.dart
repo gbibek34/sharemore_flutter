@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sharemore/screens/home.dart';
+import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/userfetch.dart';
 import 'package:sharemore/widgets/post_editing.dart';
 
@@ -37,14 +38,14 @@ class _PostState extends State<Post> {
     refreshData();
   }
 
-  userFetch() async {
-    user = await getUser();
-    correctUser = (widget.username == user.username);
-    refreshData();
-  }
-
   refreshData() {
     setState(() {
+      userFetch() async {
+        user = await getUser();
+        correctUser = (widget.username == user.username);
+        refreshData();
+      }
+
       userFetch();
     });
   }
@@ -124,7 +125,8 @@ class _PostState extends State<Post> {
                                               Navigator.pushReplacement(
                                                 context,
                                                 new MaterialPageRoute(
-                                                  builder: (context) => Home(),
+                                                  builder: (context) =>
+                                                      PostList(),
                                                 ),
                                               );
                                               widget.parentRefresh();

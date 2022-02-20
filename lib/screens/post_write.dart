@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
+import 'package:sharemore/utilities/notification.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
 
@@ -95,6 +96,7 @@ class _PostWriteState extends State<PostWrite> {
 
                             if (res["success"] == true) {
                               networkHandler.post("/post/create", data);
+                              createPostCreateNotification();
                               Navigator.push(
                                 context,
                                 new MaterialPageRoute(

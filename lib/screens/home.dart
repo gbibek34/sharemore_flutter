@@ -1,7 +1,5 @@
-import 'dart:convert';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 import 'package:sharemore/models/postModel.dart';
 import 'package:sharemore/utilities/network_handler.dart';
@@ -26,6 +24,35 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     posts = getPosts();
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Allow Notifications"),
+            content: Text("Get notified when a post is created"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Don't Allow"),
+              ),
+              ElevatedButton(
+                onPressed: () => AwesomeNotifications()
+                    .requestPermissionToSendNotifications()
+                    .then((_) => Navigator.pop(context)),
+                child: Text("Allow"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  onPrimary: Colors.white,
+                ),
+              )
+            ],
+          ),
+        );
+      }
+    });
   }
 
   Future<List<postModel>> getPosts() async {
