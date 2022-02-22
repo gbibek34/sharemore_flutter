@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:sharemore/models/postModel.dart';
 
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
 import 'package:sharemore/utilities/userfetch.dart';
+
 import 'package:sharemore/widgets/post_card.dart';
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';

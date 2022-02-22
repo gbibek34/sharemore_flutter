@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sharemore/screens/login.dart';
-import 'package:sharemore/utilities/colors.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:shake/shake.dart';
 
+import 'package:sharemore/screens/login.dart';
+import 'package:sharemore/screens/home.dart';
+
+import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/token_storage.dart';
 import 'package:sharemore/utilities/themes.dart';
-import 'package:sharemore/screens/home.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 
 void main() {
   AwesomeNotifications().initialize(null, [
@@ -34,11 +36,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String? token;
+  ShakeDetector? detector;
   @override
   void initState() {
     super.initState();
     currentTheme.addListener(() {});
     checkToken();
+    ShakeDetector.autoStart(onPhoneShake: () {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => Home(),
+        ),
+      );
+    });
   }
 
   checkToken() async {

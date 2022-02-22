@@ -1,4 +1,5 @@
 import 'package:sharemore/models/userModel.dart';
+
 import 'package:sharemore/utilities/network_handler.dart';
 
 NetworkHandler networkHandler = NetworkHandler();

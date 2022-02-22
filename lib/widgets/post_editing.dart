@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/network_handler.dart';
+
 import 'package:sharemore/widgets/sidebar.dart';
 import 'package:sharemore/widgets/topbar.dart';
 

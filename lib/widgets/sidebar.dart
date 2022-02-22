@@ -4,8 +4,9 @@ import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/screens/login.dart';
 import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/screens/post_write.dart';
-import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/screens/profile.dart';
+
+import 'package:sharemore/utilities/colors.dart';
 import 'package:sharemore/utilities/token_storage.dart';
 
 class Sidebar extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sharemore/screens/login.dart';
+
 import 'package:sharemore/utilities/network_handler.dart';
 
 class Register extends StatefulWidget {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/screens/register.dart';
+
 import 'package:sharemore/utilities/network_handler.dart';
 import 'package:sharemore/utilities/token_storage.dart';
 

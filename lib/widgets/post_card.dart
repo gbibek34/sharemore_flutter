@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:sharemore/screens/post_container.dart';
 
 class PostCard extends StatefulWidget {

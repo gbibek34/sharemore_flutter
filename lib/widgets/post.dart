@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sharemore/screens/home.dart';
 import 'package:sharemore/screens/post_list.dart';
 import 'package:sharemore/utilities/userfetch.dart';
 import 'package:sharemore/widgets/post_editing.dart';
