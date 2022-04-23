@@ -1,76 +1,186 @@
 import 'package:flutter/material.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-import '../utilities/colors.dart';
-import '../utilities/themes.dart';
+import 'package:sharemore/models/postModel.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+import 'package:sharemore/utilities/network_handler.dart';
+import 'package:sharemore/utilities/colors.dart';
 
-  final String title;
+import 'package:sharemore/widgets/sidebar.dart';
+import 'package:sharemore/widgets/topbar.dart';
+import 'package:sharemore/widgets/post_card.dart';
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _HomeState extends State<Home> {
+  NetworkHandler networkHandler = NetworkHandler();
 
-  void _incrementCounter() {
+  late Future<List<postModel>> posts;
+  bool circular = true;
+  @override
+  void initState() {
+    super.initState();
+    posts = getPosts();
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Allow Notifications"),
+            content: Text("Get notified when a post is created"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Don't Allow"),
+              ),
+              ElevatedButton(
+                onPressed: () => AwesomeNotifications()
+                    .requestPermissionToSendNotifications()
+                    .then((_) => Navigator.pop(context)),
+                child: Text("Allow"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  onPrimary: Colors.white,
+                ),
+              )
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  Future<List<postModel>> getPosts() async {
+    List<postModel> temp_list = <postModel>[];
+    var res = await networkHandler.get("/post/");
+    var postData = res["msg"];
+    for (int i = 0; i < res["msg"].length; i++) {
+      temp_list.add(postModel(
+        id: postData[i]["_id"],
+        title: postData[i]["title"],
+        description: postData[i]["description"],
+        image: postData[i]["image"],
+        username: postData[i]["username"],
+        category: postData[i]["category"],
+        createdAt: postData[i]["createdAt"],
+      ));
+    }
+    return Future.delayed(Duration.zero, () => temp_list);
+  }
+
+  dataRefresh() {
     setState(() {
-      _counter++;
+      posts = getPosts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Row(
-          children: [
-            Text(
-              "Share",
-              style: TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              "more",
-              style: TextStyle(
-                color: secondaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.brightness_4_rounded),
-            onPressed: () {
-              currentTheme.toggleTheme();
-            },
-          )
-        ],
+      drawer: Sidebar(),
+      appBar: PreferredSize(
+        child: Topbar(),
+        preferredSize: Size(double.infinity, 60),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(children: [
+              //todo:Welcome Message
+              Container(
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Welcome",
+                      style: _textTheme.headline4,
+                    ),
+                    Text(
+                      "to",
+                      style: _textTheme.headline4,
+                    ),
+                    Text(
+                      "Sharemore",
+                      style: _textTheme.headline4,
+                    ),
+                  ],
+                ),
+              ),
+              //todo:Gap
+              SizedBox(height: 20),
+              //todo:Recent Blogs
+              Container(
+                child: Column(
+                  children: [
+                    Text(
+                      "Recent Blogs",
+                      style: _textTheme.headline6,
+                    ),
+                    SizedBox(height: 10),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          FutureBuilder<List<postModel>>(
+                              future: posts,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: ListView.builder(
+                                        itemCount: snapshot.data!.length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
+                                            child: PostCard(
+                                              post_id:
+                                                  snapshot.data![index].id!,
+                                              category: snapshot
+                                                  .data![index].category!,
+                                              title:
+                                                  snapshot.data![index].title!,
+                                              description: snapshot
+                                                  .data![index].description!,
+                                              parentRefresh: dataRefresh,
+                                            ),
+                                          );
+                                        }),
+                                  );
+                                } else {
+                                  return Container(
+                                    child: Center(
+                                        child: CircularProgressIndicator()),
+                                  );
+                                }
+                              }),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ]),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
